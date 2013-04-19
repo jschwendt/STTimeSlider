@@ -15,17 +15,15 @@
 
 @optional
 - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index;
-- (void)timeSlider:(STTimeSlider *)timeSlider hadMovedAtIndex:(int)index;
 
 @end
 
 @interface STTimeSlider : UIView
 {
     UIBezierPath *_drawPath;
-    CGContextRef _context;
-    
     UIBezierPath *_movePath;
-    UIBezierPath *_cursorPath;
+    
+    CGContextRef _context;
     
     STTimeSliderMoveView *_moveLayer;
     NSMutableArray *_positionPoints;
@@ -52,5 +50,7 @@
 @property (nonatomic, assign) float radiusCircle;
 
 @property (nonatomic, retain) id<STTimeSliderDelegate> delegate;
+
+- (void)moveToIndex:(int)index;
 
 @end

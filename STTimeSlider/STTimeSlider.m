@@ -14,17 +14,20 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setBackgroundColor:[UIColor clearColor]];
+        
         _spaceBetweenPoints = 40.0;
-        _numberOfPoints = 3.0;
+        _numberOfPoints = 5.0;
         _heightLine = 10.0;
         _radiusPoint = 13.0;
         _shadowSize = CGSizeMake(2.0, 2.0);
-        _shadowBlur = 5.0;
+        _shadowBlur = 2.0;
         _strokeSize = 1.0;
         _strokeColor = [UIColor blackColor];
-        _shadowColor = [UIColor blackColor];
+        _shadowColor = [UIColor colorWithWhite:0.0 alpha:0.30];
         _radiusCircle = 2.0;
         _moveFinalIndex = 0;
+        _currentIndex = 0;
         
         _strokeColorForeground = [UIColor colorWithWhite:0.3 alpha:1.0];
         _strokeSizeForeground = 1.0;
@@ -47,6 +50,8 @@
         _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
         
         _positionPoints = [NSMutableArray array];
+        
+        CGColorSpaceRelease(colorSpace);
     }
     return self;
 }
@@ -228,26 +233,17 @@
 }
 
 #pragma mark -
-#pragma mark Animations
+#pragma mark Move the index
 
 - (void)moveToIndex:(int)index
 {
-    CGPoint centerPoint = [[_positionPoints objectAtIndex:index] CGPointValue];
+    _moveFinalIndex = index;
     
-//    [UIView animateWithDuration:1.0 animations:^{
-        _moveFinalIndex = index;
-        _movePath = [self movePath];
-        [_moveLayer setMovePath:_movePath];
-        [_moveLayer setNeedsDisplay];
-
-//        CGRect frame = _moveLayer.frame;
-//        NSLog(@"%@", NSStringFromCGRect(frame));
-//        frame.size.width = 200.0;
-//        NSLog(@"Position : %@", NSStringFromCGPoint(centerPoint));
-//        _moveLayer.frame = frame;
-//    } completion:^(BOOL finished) {
-//        
-//    }];
+    _movePath = [self movePath];
+    [_moveLayer setMovePath:_movePath];
+    [_moveLayer setNeedsDisplay];
+    
+    _currentIndex = index;
 }
 
 #pragma mark -
