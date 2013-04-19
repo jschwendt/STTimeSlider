@@ -7,6 +7,7 @@
 //
 
 #import "STTimeSlider.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation STTimeSlider
 
@@ -18,8 +19,8 @@
         _numberOfPoints = 3.0;
         _heightLine = 10.0;
         _radiusPoint = 10.0;
-        _shadowSize = CGSizeMake(0.0, 2.0);
-        _shadowBlur = 10.0;
+        _shadowSize = CGSizeMake(2.0, 2.0);
+        _shadowBlur = 5.0;
         _strokeSize = 1.0;
         _strokeColor = [UIColor blackColor];
         _shadowColor = [UIColor blackColor];
@@ -32,6 +33,8 @@
         CGFloat gradientLocations[] = {0, 1};
         
         _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+        
+//        [self setNeedsDisplay];
     }
     return self;
 }
@@ -50,14 +53,33 @@
     CGPoint startPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMinY(timelineRect));
     CGPoint endPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMaxY(timelineRect));
 
+    _drawPath = [self backgroundPath];
+
+    CGContextSaveGState(_context);
+
+    CGContextSetShadowWithColor(_context, _shadowSize, _shadowBlur, _shadowColor.CGColor);
+
+    [_drawPath setLineWidth:_strokeSize];
+    
+    [_drawPath fill];
+    [_drawPath stroke];
+    [_drawPath addClip];
+    
+    CGContextDrawLinearGradient(_context, _gradient, startPoint, endPoint, 0);
+
+    CGContextRestoreGState(_context);
+}
+
+- (UIBezierPath *)backgroundPath
+{
     UIBezierPath *path = [[UIBezierPath alloc] init];
     
     float angle = _heightLine / 2.0 / _radiusPoint;
-
+    
     for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
     {
         int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
-
+        
         CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + _strokeSize, _radiusPoint + _strokeSize);
         
         if (i == 0)
@@ -81,22 +103,8 @@
             [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
         }
     }
-    
-    CGContextSaveGState(_context);
-
-    CGContextSetShadowWithColor(_context, _shadowSize, _shadowBlur, _shadowColor.CGColor);
-
-    [path setLineWidth:_strokeSize];
-    
-    [path fill];
-    [path stroke];
-    [path addClip];
-    
-    CGContextDrawLinearGradient(_context, _gradient, startPoint, endPoint, 0);
-
-    CGContextRestoreGState(_context);
-
-    _drawPath = path;
+            
+    return path;
 }
 
 #pragma mark -
@@ -115,7 +123,7 @@
     if (isInPath)
     {
         float x = touchPoint.x;
-        x -= _strokeSize;        
+        x -= _strokeSize;
         
         float posX = (int)x % (int)(_spaceBetweenPoints + _radiusPoint * 2.0);
         posX -= _radiusPoint;
@@ -124,7 +132,10 @@
         {
             int nbrPoint = (float)x / (float)(_spaceBetweenPoints + _radiusPoint * 2.0);
             
-            NSLog(@"Inside %d", nbrPoint);
+            if ([_delegate respondsToSelector:@selector(pointSelectedAtIndex:)])
+            {
+                [_delegate pointSelectedAtIndex:nbrPoint];
+            }
         }
     }
 }

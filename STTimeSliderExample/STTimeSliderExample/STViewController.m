@@ -8,8 +8,6 @@
 
 #import "STViewController.h"
 
-#import "STTimeSlider.h"
-
 @interface STViewController ()
 
 @end
@@ -21,6 +19,7 @@
     [super viewDidLoad];
     
     _timeSlider = [[STTimeSlider alloc] initWithFrame:CGRectMake(5.0, 5.0, 310.0, 110.0)];
+    [_timeSlider setDelegate:self];
     [_timeSlider setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_timeSlider];
 }
@@ -44,6 +43,14 @@
 
 //    [_timeSlider setGradient:gradient];
 //    [_timeSlider setStrokeColor:[UIColor blueColor]];
+}
+
+#pragma mark -
+#pragma mark STTimeSlider Delegate
+
+- (void)pointSelectedAtIndex:(int)index
+{
+    NSLog(@"point %d", index);
 }
 
 @end

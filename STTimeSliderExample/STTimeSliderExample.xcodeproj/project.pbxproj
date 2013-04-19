@@ -19,6 +19,7 @@
 		254D1A62170A906600173995 /* STViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D1A61170A906600173995 /* STViewController.m */; };
 		254D1A65170A906600173995 /* STViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254D1A63170A906600173995 /* STViewController.xib */; };
 		254D1A6F170A910F00173995 /* STTimeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D1A6E170A910F00173995 /* STTimeSlider.m */; };
+		25DA6FF81721BAAF0092D83D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA6FF71721BAAF0092D83D /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		254D1A64170A906600173995 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/STViewController.xib; sourceTree = "<group>"; };
 		254D1A6D170A910F00173995 /* STTimeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTimeSlider.h; sourceTree = "<group>"; };
 		254D1A6E170A910F00173995 /* STTimeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTimeSlider.m; sourceTree = "<group>"; };
+		25DA6FF71721BAAF0092D83D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25DA6FF81721BAAF0092D83D /* QuartzCore.framework in Frameworks */,
 				254D1A49170A906600173995 /* UIKit.framework in Frameworks */,
 				254D1A4B170A906600173995 /* Foundation.framework in Frameworks */,
 				254D1A4D170A906600173995 /* CoreGraphics.framework in Frameworks */,
@@ -76,6 +79,7 @@
 		254D1A47170A906600173995 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				25DA6FF71721BAAF0092D83D /* QuartzCore.framework */,
 				254D1A48170A906600173995 /* UIKit.framework */,
 				254D1A4A170A906600173995 /* Foundation.framework */,
 				254D1A4C170A906600173995 /* CoreGraphics.framework */,

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class STTimeSlider;
-@interface STViewController : UIViewController
+#import "STTimeSlider.h"
+
+@interface STViewController : UIViewController <STTimeSliderDelegate>
 {
     STTimeSlider *_timeSlider;
 }
