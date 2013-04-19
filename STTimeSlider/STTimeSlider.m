@@ -14,18 +14,175 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        _spaceBetweenPoints = 40.0;
+        _numberOfPoints = 3.0;
+        _heightLine = 10.0;
+        _radiusPoint = 10.0;
+        _shapeSize = 10.0;
+        _strokeSize = 1.0;
+        _strokeColor = [UIColor blackColor];
+        _shapeColor = [UIColor blackColor];
+        
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        
+        NSArray *gradientColors = [NSArray arrayWithObjects:
+                                   (id)[UIColor grayColor].CGColor,
+                                   (id)[UIColor whiteColor].CGColor, nil];
+        CGFloat gradientLocations[] = {0, 1};
+        
+        _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
+#pragma mark -
+#pragma mark Drawing
+
 - (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+{    
+    [_strokeColor setStroke];
+    
+    _context = UIGraphicsGetCurrentContext();
+    
+    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, _spaceBetweenPoints * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0 + _shapeSize);
+    
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMinY(timelineRect));
+    CGPoint endPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMaxY(timelineRect));
+
+    UIBezierPath *path = [[UIBezierPath alloc] init];
+    
+    float angle = _heightLine / 2.0 / _radiusPoint;
+
+    for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
+    {
+        int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
+
+        CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + _strokeSize, _radiusPoint + _strokeSize);
+        
+        if (i == 0)
+        {
+            [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:angle * -1.0 clockwise:YES];
+            [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + _spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
+        }
+        else if (i == _numberOfPoints - 1)
+        {
+            [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
+            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
+        }
+        else if (i < _numberOfPoints - 1)
+        {
+            [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:angle * -1.0 clockwise:YES];
+            [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + _spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
+        }
+        else if (i >= _numberOfPoints)
+        {
+            [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
+            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
+        }
+    }
+    
+    CGContextSaveGState(_context);
+    
+    [path setLineWidth:_strokeSize];
+    
+    [path fill];
+    [path stroke];
+    [path addClip];
+    
+    CGContextDrawLinearGradient(_context, _gradient, startPoint, endPoint, 0);
+
+    CGContextRestoreGState(_context);
+
+    _drawPath = path;
 }
-*/
+
+#pragma mark -
+#pragma mark User touch
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    CGPoint touchPoint = [[touches anyObject] locationInView:self];
+    CGContextSaveGState(_context);
+    CGContextAddPath(_context, _drawPath.CGPath);
+
+    BOOL isInPath = CGContextPathContainsPoint(_context, touchPoint, kCGPathFillStroke);
+    
+    CGContextRestoreGState(_context);
+
+    if (isInPath)
+    {
+        float x = touchPoint.x;
+        x -= _strokeSize;        
+        
+        float posX = (int)x % (int)(_spaceBetweenPoints + _radiusPoint * 2.0);
+        posX -= _radiusPoint;
+
+        if (fabs(posX) <= _radiusPoint)
+        {
+            int nbrPoint = (float)x / (float)(_spaceBetweenPoints + _radiusPoint * 2.0);
+            
+            NSLog(@"Inside %d", nbrPoint);
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark Setters
+
+- (void)setGradient:(CGGradientRef)gradient
+{
+    _gradient = gradient;
+    [self setNeedsDisplay];
+}
+
+- (void)setStrokeColor:(UIColor *)strokeColor
+{
+    _strokeColor = strokeColor;
+    [self setNeedsDisplay];
+}
+
+- (void)setShapeColor:(UIColor *)shapeColor
+{
+    _shapeColor = shapeColor;
+    [self setNeedsDisplay];
+}
+
+- (void)setShapeSize:(float)shapeSize
+{
+    _shapeSize = shapeSize;
+    [self setNeedsDisplay];
+}
+
+- (void)setStrokeSize:(float)strokeSize
+{
+    _strokeSize = strokeSize;
+    [self setNeedsDisplay];
+}
+
+- (void)setRadiusPoint:(float)radiusPoint
+{
+    _radiusPoint = radiusPoint;
+    [self setNeedsDisplay];
+}
+
+- (void)setNumberOfPoints:(float)numberOfPoints
+{
+    if (numberOfPoints < 2)
+    {
+        _numberOfPoints = 2;
+    }
+    else
+    {
+        _numberOfPoints = numberOfPoints;
+    }
+    
+    [self setNeedsDisplay];
+}
+
+- (void)setHeightLine:(float)heightLine
+{
+    _heightLine = heightLine;
+    [self setNeedsDisplay];
+}
 
 @end

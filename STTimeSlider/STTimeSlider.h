@@ -9,5 +9,21 @@
 #import <UIKit/UIKit.h>
 
 @interface STTimeSlider : UIView
+{
+    UIBezierPath *_drawPath;
+    CGContextRef _context;
+}
+
+@property (nonatomic, assign) float spaceBetweenPoints;
+@property (nonatomic, assign) float numberOfPoints;
+@property (nonatomic, assign) float heightLine;
+@property (nonatomic, assign) float radiusPoint;
+@property (nonatomic, assign) float shapeSize;
+@property (nonatomic, assign) float strokeSize;
+@property (nonatomic, retain) UIColor *strokeColor;
+@property (nonatomic, retain) UIColor *shapeColor;
+@property (nonatomic, assign) CGGradientRef gradient;
+
+- (void)setGradient:(CGGradientRef)gradient;
 
 @end

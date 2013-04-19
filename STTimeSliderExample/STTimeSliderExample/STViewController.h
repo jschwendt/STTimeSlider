@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class STTimeSlider;
 @interface STViewController : UIViewController
+{
+    STTimeSlider *_timeSlider;
+}
 
 @end

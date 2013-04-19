@@ -19,13 +19,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    _timeSlider = [[STTimeSlider alloc] initWithFrame:CGRectMake(5.0, 5.0, 310.0, 110.0)];
+    [_timeSlider setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:_timeSlider];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [_timeSlider setNumberOfPoints:5];
+//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//    
+//    NSArray *gradientColors = [NSArray arrayWithObjects:
+//                               (id)[UIColor blueColor].CGColor,
+//                               (id)[UIColor redColor].CGColor, nil];
+//    CGFloat gradientLocations[] = {0, 1};
+//    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+
+//    [_timeSlider setGradient:gradient];
+//    [_timeSlider setStrokeColor:[UIColor blueColor]];
 }
 
 @end
