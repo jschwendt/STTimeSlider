@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class STTimeSlider;
 @protocol STTimeSliderDelegate <NSObject>
 
 @optional
-- (void)pointSelectedAtIndex:(int)index;
-- (void)movedToIndex:(int)index;
+- (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index;
+- (void)timeSlider:(STTimeSlider *)timeSlider hadMovedAtIndex:(int)index;
 
 @end
 
@@ -22,6 +23,7 @@
     CGContextRef _context;
     
     UIBezierPath *_movePath;
+    UIBezierPath *_cursorPath;
 }
 
 @property (nonatomic, assign) float spaceBetweenPoints;
@@ -37,8 +39,11 @@
 
 @property (nonatomic, assign, readonly) int currentIndex;
 
-@property (nonatomic, retain) id<STTimeSliderDelegate> delegate;
+@property (nonatomic, assign) CGGradientRef gradientForeground;
+@property (nonatomic, assign) float strokeSizeForeground;
+@property (nonatomic, retain) UIColor *strokeColorForeground;
+@property (nonatomic, assign) float radiusCircle;
 
-- (void)setGradient:(CGGradientRef)gradient;
+@property (nonatomic, retain) id<STTimeSliderDelegate> delegate;
 
 @end

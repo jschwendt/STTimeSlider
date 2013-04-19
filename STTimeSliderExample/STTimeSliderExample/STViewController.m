@@ -33,24 +33,36 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [_timeSlider setNumberOfPoints:5];
-//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//    
-//    NSArray *gradientColors = [NSArray arrayWithObjects:
-//                               (id)[UIColor blueColor].CGColor,
-//                               (id)[UIColor redColor].CGColor, nil];
-//    CGFloat gradientLocations[] = {0, 1};
-//    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+    
+    [_timeSlider setShadowBlur:2.0];
+    [_timeSlider setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.30]];
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    NSArray *gradientColors = [NSArray arrayWithObjects:
+                               (id)[UIColor whiteColor].CGColor,
+                               (id)[UIColor colorWithWhite:0.888 alpha:1.000].CGColor, nil];
+    CGFloat gradientLocations[] = {0, 1};
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
 
-//    [_timeSlider setGradient:gradient];
-//    [_timeSlider setStrokeColor:[UIColor blueColor]];
+    [_timeSlider setGradientForeground:gradient];
+    
+    gradientColors = [NSArray arrayWithObjects:
+                               (id)[UIColor colorWithRed:0.571 green:0.120 blue:0.143 alpha:1.000].CGColor,
+                               (id)[UIColor colorWithRed:0.970 green:0.264 blue:0.370 alpha:1.000].CGColor, nil];
+    gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+    
+    [_timeSlider setGradient:gradient];
+
+    //    [_timeSlider setStrokeColor:[UIColor blueColor]];
 }
 
 #pragma mark -
 #pragma mark STTimeSlider Delegate
 
-- (void)pointSelectedAtIndex:(int)index
+- (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index
 {
-    NSLog(@"point %d", index);
+    NSLog(@"timeslider %@ point %d", timeSlider, index);
 }
 
 @end

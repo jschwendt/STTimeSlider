@@ -18,23 +18,29 @@
         _spaceBetweenPoints = 40.0;
         _numberOfPoints = 3.0;
         _heightLine = 10.0;
-        _radiusPoint = 10.0;
+        _radiusPoint = 13.0;
         _shadowSize = CGSizeMake(2.0, 2.0);
         _shadowBlur = 5.0;
         _strokeSize = 1.0;
         _strokeColor = [UIColor blackColor];
         _shadowColor = [UIColor blackColor];
+        _radiusCircle = 2.0;
+        
+        _strokeColorForeground = [UIColor colorWithWhite:0.3 alpha:1.0];
+        _strokeSizeForeground = 1.0;
         
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         
         NSArray *gradientColors = [NSArray arrayWithObjects:
-                                   (id)[UIColor grayColor].CGColor,
-                                   (id)[UIColor whiteColor].CGColor, nil];
+                                   (id)[UIColor whiteColor].CGColor,
+                                   (id)[UIColor colorWithWhite:0.793 alpha:1.000].CGColor, nil];
         CGFloat gradientLocations[] = {0, 1};
+        _gradientForeground = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
         
+        gradientColors = [NSArray arrayWithObjects:
+                          (id)[UIColor colorWithRed:0.571 green:0.120 blue:0.143 alpha:1.000].CGColor,
+                          (id)[UIColor colorWithRed:0.970 green:0.264 blue:0.370 alpha:1.000].CGColor, nil];
         _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
-        
-//        [self setNeedsDisplay];
     }
     return self;
 }
@@ -43,9 +49,7 @@
 #pragma mark Drawing
 
 - (void)drawRect:(CGRect)rect
-{    
-    [_strokeColor setStroke];
-    
+{        
     _context = UIGraphicsGetCurrentContext();
     
     CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, _spaceBetweenPoints * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0);
@@ -54,20 +58,29 @@
     CGPoint endPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMaxY(timelineRect));
 
     _drawPath = [self backgroundPath];
+    _movePath = [self movePath];
+
+    [_strokeColor setStroke];
 
     CGContextSaveGState(_context);
-
     CGContextSetShadowWithColor(_context, _shadowSize, _shadowBlur, _shadowColor.CGColor);
-
     [_drawPath setLineWidth:_strokeSize];
-    
     [_drawPath fill];
     [_drawPath stroke];
     [_drawPath addClip];
-    
     CGContextDrawLinearGradient(_context, _gradient, startPoint, endPoint, 0);
-
     CGContextRestoreGState(_context);
+        
+    [_strokeColorForeground setStroke];
+
+    CGContextSaveGState(_context);
+    [_movePath setLineWidth:_strokeSizeForeground];
+    [_movePath fill];
+    [_movePath stroke];
+    [_movePath addClip];
+    CGContextDrawLinearGradient(_context, _gradientForeground, startPoint, endPoint, 0);
+    CGContextRestoreGState(_context);
+
 }
 
 - (UIBezierPath *)backgroundPath
@@ -107,6 +120,63 @@
     return path;
 }
 
+- (UIBezierPath *)movePath
+{
+    UIBezierPath *path = [[UIBezierPath alloc] init];
+//    [path setUsesEvenOddFillRule:NO];
+    
+    float heightLine = _heightLine - 4.0;
+    float radiusPoint = _radiusPoint - 3.0;
+    
+    float angle = heightLine / 2.0 / radiusPoint;
+    
+    for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
+    {
+        int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
+        
+        CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + 1.0, _radiusPoint + 1.0);
+        
+        if (i == 0)
+        {
+            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:angle * -1.0 clockwise:YES];
+            
+            CGPoint currentPoint = path.currentPoint;
+            
+            [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+            [path addLineToPoint:currentPoint];
+            [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
+        }
+        else if (i == _numberOfPoints - 1)
+        {
+            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
+            
+            CGPoint currentPoint = path.currentPoint;
+            
+            [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+            [path addLineToPoint:currentPoint];
+            [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+        }
+        else if (i < _numberOfPoints - 1)
+        {
+            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:angle * -1.0 clockwise:YES];
+            
+            CGPoint currentPoint = path.currentPoint;
+            
+            [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+            [path addLineToPoint:currentPoint];
+
+            [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
+        }
+        else if (i >= _numberOfPoints)
+        {
+            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
+            [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+        }
+    }
+    
+    return path;    
+}
+
 #pragma mark -
 #pragma mark User touch
 
@@ -132,9 +202,9 @@
         {
             int nbrPoint = (float)x / (float)(_spaceBetweenPoints + _radiusPoint * 2.0);
             
-            if ([_delegate respondsToSelector:@selector(pointSelectedAtIndex:)])
+            if ([_delegate respondsToSelector:@selector(timeSlider:didSelectPointAtIndex:)])
             {
-                [_delegate pointSelectedAtIndex:nbrPoint];
+                [_delegate timeSlider:self didSelectPointAtIndex:nbrPoint];
             }
         }
     }
@@ -146,6 +216,12 @@
 - (void)setGradient:(CGGradientRef)gradient
 {
     _gradient = gradient;
+    [self setNeedsDisplay];
+}
+
+- (void)setGradientForeground:(CGGradientRef)gradientForeground
+{
+    _gradientForeground = gradientForeground;
     [self setNeedsDisplay];
 }
 
