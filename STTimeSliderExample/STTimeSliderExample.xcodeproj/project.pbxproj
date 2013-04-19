@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		251B5C151721E3BB00DF0C4E /* STTimeSliderMoveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251B5C141721E3BB00DF0C4E /* STTimeSliderMoveView.m */; };
 		254D1A49170A906600173995 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254D1A48170A906600173995 /* UIKit.framework */; };
 		254D1A4B170A906600173995 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254D1A4A170A906600173995 /* Foundation.framework */; };
 		254D1A4D170A906600173995 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254D1A4C170A906600173995 /* CoreGraphics.framework */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		251B5C131721E3BB00DF0C4E /* STTimeSliderMoveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTimeSliderMoveView.h; sourceTree = "<group>"; };
+		251B5C141721E3BB00DF0C4E /* STTimeSliderMoveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTimeSliderMoveView.m; sourceTree = "<group>"; };
 		254D1A45170A906600173995 /* STTimeSliderExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = STTimeSliderExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254D1A48170A906600173995 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		254D1A4A170A906600173995 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -120,6 +123,8 @@
 			children = (
 				254D1A6D170A910F00173995 /* STTimeSlider.h */,
 				254D1A6E170A910F00173995 /* STTimeSlider.m */,
+				251B5C131721E3BB00DF0C4E /* STTimeSliderMoveView.h */,
+				251B5C141721E3BB00DF0C4E /* STTimeSliderMoveView.m */,
 			);
 			name = STTimeSlider;
 			path = ../../STTimeSlider;
@@ -196,6 +201,7 @@
 				254D1A59170A906600173995 /* STAppDelegate.m in Sources */,
 				254D1A62170A906600173995 /* STViewController.m in Sources */,
 				254D1A6F170A910F00173995 /* STTimeSlider.m in Sources */,
+				251B5C151721E3BB00DF0C4E /* STTimeSliderMoveView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

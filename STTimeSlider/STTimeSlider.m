@@ -7,7 +7,6 @@
 //
 
 #import "STTimeSlider.h"
-#import <QuartzCore/QuartzCore.h>
 
 @implementation STTimeSlider
 
@@ -25,9 +24,14 @@
         _strokeColor = [UIColor blackColor];
         _shadowColor = [UIColor blackColor];
         _radiusCircle = 2.0;
+        _moveFinalIndex = 0;
         
         _strokeColorForeground = [UIColor colorWithWhite:0.3 alpha:1.0];
         _strokeSizeForeground = 1.0;
+        
+        _moveLayer = [[STTimeSliderMoveView alloc] initWithFrame:self.bounds];
+        [_moveLayer setDelegate:self];
+        [self addSubview:_moveLayer];
         
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         
@@ -41,6 +45,8 @@
                           (id)[UIColor colorWithRed:0.571 green:0.120 blue:0.143 alpha:1.000].CGColor,
                           (id)[UIColor colorWithRed:0.970 green:0.264 blue:0.370 alpha:1.000].CGColor, nil];
         _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+        
+        _positionPoints = [NSMutableArray array];
     }
     return self;
 }
@@ -70,17 +76,12 @@
     [_drawPath addClip];
     CGContextDrawLinearGradient(_context, _gradient, startPoint, endPoint, 0);
     CGContextRestoreGState(_context);
-        
-    [_strokeColorForeground setStroke];
-
-    CGContextSaveGState(_context);
-    [_movePath setLineWidth:_strokeSizeForeground];
-    [_movePath fill];
-    [_movePath stroke];
-    [_movePath addClip];
-    CGContextDrawLinearGradient(_context, _gradientForeground, startPoint, endPoint, 0);
-    CGContextRestoreGState(_context);
-
+    
+    [_moveLayer setMovePath:_movePath];
+    [_moveLayer setStartPoint:startPoint];
+    [_moveLayer setEndPoint:endPoint];
+    
+    [_moveLayer setNeedsDisplay];
 }
 
 - (UIBezierPath *)backgroundPath
@@ -97,21 +98,25 @@
         
         if (i == 0)
         {
+            [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:angle * -1.0 clockwise:YES];
             [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + _spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
         }
         else if (i == _numberOfPoints - 1)
         {
+            [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
             [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
         }
         else if (i < _numberOfPoints - 1)
         {
+            [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:angle * -1.0 clockwise:YES];
             [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + _spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
         }
         else if (i >= _numberOfPoints)
         {
+            [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
             [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
         }
@@ -123,54 +128,64 @@
 - (UIBezierPath *)movePath
 {
     UIBezierPath *path = [[UIBezierPath alloc] init];
-//    [path setUsesEvenOddFillRule:NO];
     
     float heightLine = _heightLine - 4.0;
     float radiusPoint = _radiusPoint - 3.0;
     
     float angle = heightLine / 2.0 / radiusPoint;
     
-    for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
+    if (_moveFinalIndex == 0)
     {
-        int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
+        CGPoint centerPoint = CGPointMake(_radiusPoint + 1.0, _radiusPoint + 1.0);
+        [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:0.0 endAngle:M_PI * 2.0 clockwise:YES];
+        [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+    }
+    else
+    {
+        int moveTo = _moveFinalIndex + 1;
         
-        CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + 1.0, _radiusPoint + 1.0);
-        
-        if (i == 0)
+        for (int i = 0; i < (moveTo - 2) * 2 + 2; i++)
         {
-            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:angle * -1.0 clockwise:YES];
+            int pointNbr = (i >= moveTo) ? (moveTo - 2) - (i - moveTo) : i;
             
-            CGPoint currentPoint = path.currentPoint;
+            CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + 1.0, _radiusPoint + 1.0);
             
-            [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
-            [path addLineToPoint:currentPoint];
-            [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
-        }
-        else if (i == _numberOfPoints - 1)
-        {
-            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
-            
-            CGPoint currentPoint = path.currentPoint;
-            
-            [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
-            [path addLineToPoint:currentPoint];
-            [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
-        }
-        else if (i < _numberOfPoints - 1)
-        {
-            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:angle * -1.0 clockwise:YES];
-            
-            CGPoint currentPoint = path.currentPoint;
-            
-            [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
-            [path addLineToPoint:currentPoint];
+            if (i == 0)
+            {
+                [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:angle * -1.0 clockwise:YES];
+                
+                CGPoint currentPoint = path.currentPoint;
+                
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+                [path addLineToPoint:currentPoint];
+                [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
+            }
+            else if (i == moveTo - 1)
+            {
+                [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
+                
+                CGPoint currentPoint = path.currentPoint;
+                
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+                [path addLineToPoint:currentPoint];
+                [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+            }
+            else if (i < moveTo - 1)
+            {
+                [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:angle * -1.0 clockwise:YES];
+                
+                CGPoint currentPoint = path.currentPoint;
+                
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+                [path addLineToPoint:currentPoint];
 
-            [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
-        }
-        else if (i >= _numberOfPoints)
-        {
-            [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+                [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
+            }
+            else if (i >= moveTo)
+            {
+                [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
+                [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+            }
         }
     }
     
@@ -206,8 +221,33 @@
             {
                 [_delegate timeSlider:self didSelectPointAtIndex:nbrPoint];
             }
+            
+            [self moveToIndex:nbrPoint];
         }
     }
+}
+
+#pragma mark -
+#pragma mark Animations
+
+- (void)moveToIndex:(int)index
+{
+    CGPoint centerPoint = [[_positionPoints objectAtIndex:index] CGPointValue];
+    
+//    [UIView animateWithDuration:1.0 animations:^{
+        _moveFinalIndex = index;
+        _movePath = [self movePath];
+        [_moveLayer setMovePath:_movePath];
+        [_moveLayer setNeedsDisplay];
+
+//        CGRect frame = _moveLayer.frame;
+//        NSLog(@"%@", NSStringFromCGRect(frame));
+//        frame.size.width = 200.0;
+//        NSLog(@"Position : %@", NSStringFromCGPoint(centerPoint));
+//        _moveLayer.frame = frame;
+//    } completion:^(BOOL finished) {
+//        
+//    }];
 }
 
 #pragma mark -

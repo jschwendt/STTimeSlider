@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import "STTimeSliderMoveView.h"
 
 @class STTimeSlider;
 @protocol STTimeSliderDelegate <NSObject>
@@ -24,6 +26,11 @@
     
     UIBezierPath *_movePath;
     UIBezierPath *_cursorPath;
+    
+    STTimeSliderMoveView *_moveLayer;
+    NSMutableArray *_positionPoints;
+    
+    int _moveFinalIndex;
 }
 
 @property (nonatomic, assign) float spaceBetweenPoints;
