@@ -38,7 +38,13 @@
 
 - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index
 {
-    NSLog(@"TimeSlider %@ at Index %d", timeSlider, index);
+    _labelIndex.text = [NSString stringWithFormat:@"Index: %d", index];
+    [_segmentedControl setSelectedSegmentIndex:index];
+}
+
+- (IBAction)changeSegment:(id)sender {
+    [_timeSlider moveToIndex:_segmentedControl.selectedSegmentIndex];
+    _labelIndex.text = [NSString stringWithFormat:@"Index: %d", _timeSlider.currentIndex];
 }
 
 @end

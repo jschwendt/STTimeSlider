@@ -15,4 +15,9 @@
     STTimeSlider *_timeSlider;
 }
 
+@property (strong, nonatomic) IBOutlet UILabel *labelIndex;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
+- (IBAction)changeSegment:(id)sender;
+
 @end
