@@ -18,10 +18,11 @@
         _numberOfPoints = 3.0;
         _heightLine = 10.0;
         _radiusPoint = 10.0;
-        _shapeSize = 10.0;
+        _shadowSize = CGSizeMake(0.0, 2.0);
+        _shadowBlur = 10.0;
         _strokeSize = 1.0;
         _strokeColor = [UIColor blackColor];
-        _shapeColor = [UIColor blackColor];
+        _shadowColor = [UIColor blackColor];
         
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         
@@ -44,7 +45,7 @@
     
     _context = UIGraphicsGetCurrentContext();
     
-    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, _spaceBetweenPoints * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0 + _shapeSize);
+    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, _spaceBetweenPoints * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0);
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMinY(timelineRect));
     CGPoint endPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMaxY(timelineRect));
@@ -82,7 +83,9 @@
     }
     
     CGContextSaveGState(_context);
-    
+
+    CGContextSetShadowWithColor(_context, _shadowSize, _shadowBlur, _shadowColor.CGColor);
+
     [path setLineWidth:_strokeSize];
     
     [path fill];
@@ -141,15 +144,21 @@
     [self setNeedsDisplay];
 }
 
-- (void)setShapeColor:(UIColor *)shapeColor
+- (void)setShadowColor:(UIColor *)shadowColor
 {
-    _shapeColor = shapeColor;
+    _shadowColor = shadowColor;
     [self setNeedsDisplay];
 }
 
-- (void)setShapeSize:(float)shapeSize
+- (void)setShadowSize:(CGSize)shadowSize
 {
-    _shapeSize = shapeSize;
+    _shadowSize = shadowSize;
+    [self setNeedsDisplay];
+}
+
+- (void)setShadowBlur:(float)shadowBlur
+{
+    _shadowBlur = shadowBlur;
     [self setNeedsDisplay];
 }
 
