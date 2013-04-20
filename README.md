@@ -13,7 +13,7 @@ Please include these 4 files:
 - `STTimeSliderModeView.h`
 - `STTimeSliderModeView.m`
 
-And include `QuartzCore.framework`.
+And include `QuartzCore.framework` and `CoreGraphics.framework`.
 
 This plugin is highly customizable. You can customize:
 
