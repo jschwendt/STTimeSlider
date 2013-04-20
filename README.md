@@ -23,7 +23,7 @@ This plugin is highly customizable. You can customize:
 
 - `float numberOfPoints`: The number of points (more than 1)
 - `float radiusPoint`: (1) The radius of the point
-- `float heightLine`: (2) The height of the line between two points. The height must be lower than `radiusPoint` * 2;
+- `float heightLine`: (2) The height of the line between two points. The height must be lower than `radiusPoint * 2`;
 - `float spaceBetweenPoints`: (3) The space between two points.
 - `float radiusCircle`: (4) The radius of the point inside the selected circles.
 
@@ -41,7 +41,7 @@ This plugin is highly customizable. You can customize:
 
 - `CGSize shadowSize`: The size.
 - `float shadowBlur`: The blur.
-- `UIColor shadowColor`: The color.
+- `UIColor *shadowColor`: The color.
 
 ## Demo
 
