@@ -32,6 +32,7 @@
     
     CGContextSaveGState(context);
     [_movePath setLineWidth:_delegate.strokeSizeForeground];
+    [_movePath stroke];
     [_movePath addClip];
     CGContextDrawLinearGradient(context, _delegate.gradientForeground, _startPoint, _endPoint, 0);
     CGContextRestoreGState(context);

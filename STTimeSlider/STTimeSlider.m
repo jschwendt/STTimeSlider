@@ -94,7 +94,7 @@
     UIBezierPath *path = [[UIBezierPath alloc] init];
     
     float angle = _heightLine / 2.0 / _radiusPoint;
-    
+        
     for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
     {
         int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
@@ -111,7 +111,7 @@
         {
             [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints - ((i == (_numberOfPoints - 2) * 2 + 1) ? (_radiusPoint * (1.0 - cosf(angle))) : 0 ), centerPoint.y + _heightLine / 2.0)];
         }
         else if (i < _numberOfPoints - 1)
         {
@@ -123,7 +123,7 @@
         {
             [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints, centerPoint.y + _heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints - ((i == (_numberOfPoints - 2) * 2 + 1) ? (_radiusPoint * (1.0 - cosf(angle))) : 0 ), centerPoint.y + _heightLine / 2.0)];
         }
     }
             
