@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>STTimeSlider by SebastienThiebaud</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>STTimeSlider</h1>
+          <h2>A custom component like UISegmentedControl highly customizable.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/SebastienThiebaud/STTimeSlider/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/SebastienThiebaud/STTimeSlider/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/SebastienThiebaud/STTimeSlider" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>STTimeSlider</h1>
+
+<p>A custom component like UISegmentedControl highly customizable.</p>
+
+<p><img src="https://raw.github.com/SebastienThiebaud/STTimeSlider/master/screenshot.png" alt="STTimeSlider screenshot" title="STTimeSlider Screenshot"></p>
+
+<h2>Documentation</h2>
+
+<p>Please include these 4 files:</p>
+
+<ul>
+<li><code>STTimeSlider.h</code></li>
+<li><code>STTimeSlider.m</code></li>
+<li><code>STTimeSliderModeView.h</code></li>
+<li><code>STTimeSliderModeView.m</code></li>
+</ul><p>And include <code>QuartzCore.framework</code>.</p>
+
+<p>This plugin is highly customizable. You can customize:</p>
+
+<p><img src="http://sebastienthiebaud.us/github/STTimeSlider/sizes.png" alt="STTimeSlider doc sizes" title="STTimeSlider doc sizes"></p>
+
+<h3>Basic</h3>
+
+<ul>
+<li>
+<code>float numberOfPoints</code>: The number of points (more than 1)</li>
+<li>
+<code>float radiusPoint</code>: (1) The radius of the point</li>
+<li>
+<code>float heightLine</code>: (2) The height of the line between two points. The height must be lower than <code>radiusPoint * 2</code>;</li>
+<li>
+<code>float spaceBetweenPoints</code>: (3) The space between two points.</li>
+<li>
+<code>float radiusCircle</code>: (4) The radius of the point inside the selected circles.</li>
+</ul><h3>Gradient</h3>
+
+<ul>
+<li>
+<code>CGGradientRef gradient</code>: The gradient of the background bar.</li>
+<li>
+<code>CGGradientRef gradientForeground</code>: The gradient of the foreground bar.</li>
+</ul><h3>Stroke</h3>
+
+<ul>
+<li>
+<code>UIColor *strokeColor</code>: The color of the background bar's stroke.</li>
+<li>
+<code>float strokeSize</code>: The size of the background bar's stroke.</li>
+<li>
+<code>UIColor *strokeColorForeground</code>: The color of the foreground bar's stroke.</li>
+<li>
+<code>float strokeSizeForeground</code>: The size of the foreground bar's stroke.</li>
+</ul><h3>Shadow</h3>
+
+<ul>
+<li>
+<code>CGSize shadowSize</code>: The size.</li>
+<li>
+<code>float shadowBlur</code>: The blur.</li>
+<li>
+<code>UIColor *shadowColor</code>: The color.</li>
+</ul><h2>Demo</h2>
+
+<p>Build and run the project STTimeSliderExample in Xcode to see <code>STTimeSlider</code> in action. </p>
+
+<h2>Example Usage</h2>
+
+<div class="highlight"><pre>    <span class="n">STTimeSlider</span> <span class="o">*</span><span class="n">timeSlider</span> <span class="o">=</span> <span class="p">[[</span><span class="n">STTimeSlider</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFrame</span><span class="o">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">310.0</span><span class="p">,</span> <span class="mf">110.0</span><span class="p">)];</span>
+    <span class="p">[</span><span class="o">*</span><span class="n">timeSlider</span> <span class="n">setDelegate</span><span class="o">:</span><span class="n">self</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="n">addSubview</span><span class="o">:*</span><span class="n">timeSlider</span><span class="p">];</span>
+</pre></div>
+
+<p>Don't forget to implement<code>STTimeSliderDelegate</code> protocol in your ViewController. Without it, you won't be able to detect when the user will change the index:</p>
+
+<div class="highlight"><pre>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">timeSlider</span><span class="o">:</span><span class="p">(</span><span class="n">STTimeSlider</span> <span class="o">*</span><span class="p">)</span><span class="n">timeSlider</span> <span class="n">didSelectPointAtIndex</span><span class="o">:</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">index</span>
+    <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"TimeSlider %@ at Index %d"</span><span class="p">,</span> <span class="n">timeSlider</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+
+<p>You can change the index of the slider with <code>- (void)moveToIndex:(int)index;</code>.</p>
+
+<h2>Contact</h2>
+
+<p>Sebastien Thiebaud</p>
+
+<ul>
+<li><a href="http://github.com/SebastienThiebaud">http://github.com/SebastienThiebaud</a></li>
+<li><a href="http://twitter.com/SebThiebaud">http://twitter.com/SebThiebaud</a></li>
+</ul><h2>License</h2>
+
+<p>STTimeSlider is available under the MIT license.</p>
+        </section>
+
+        <footer>
+          STTimeSlider is maintained by <a href="https://github.com/SebastienThiebaud">SebastienThiebaud</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
