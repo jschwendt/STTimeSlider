@@ -51,8 +51,8 @@ Build and run the project STTimeSliderExample in Xcode to see `STTimeSlider` in 
 
 ``` objective-c
     STTimeSlider *timeSlider = [[STTimeSlider alloc] initWithFrame:CGRectMake(5.0, 5.0, 310.0, 110.0)];
-    [*timeSlider setDelegate:self];
-    [self.view addSubview:*timeSlider];
+    [timeSlider setDelegate:self];
+    [self.view addSubview:timeSlider];
 ```
 
 Don't forget to implement`STTimeSliderDelegate` protocol in your ViewController. Without it, you won't be able to detect when the user will change the index:
