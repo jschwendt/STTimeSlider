@@ -19,7 +19,7 @@
         _spaceBetweenPoints = 40.0;
         _numberOfPoints = 5.0;
         _heightLine = 10.0;
-        _radiusPoint = 13.0;
+        _radiusPoint = 10.0;
         _shadowSize = CGSizeMake(2.0, 2.0);
         _shadowBlur = 2.0;
         _strokeSize = 1.0;
@@ -28,6 +28,7 @@
         _radiusCircle = 2.0;
         _moveFinalIndex = 0;
         _currentIndex = 0;
+        _touchEnabled = YES;
         
         _strokeColorForeground = [UIColor colorWithWhite:0.3 alpha:1.0];
         _strokeSizeForeground = 1.0;
@@ -91,10 +92,12 @@
 
 - (UIBezierPath *)backgroundPath
 {
+    [_positionPoints removeAllObjects];
+    
     UIBezierPath *path = [[UIBezierPath alloc] init];
     
     float angle = _heightLine / 2.0 / _radiusPoint;
-        
+    
     for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
     {
         int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
@@ -202,32 +205,29 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    CGPoint touchPoint = [[touches anyObject] locationInView:self];
-    CGContextSaveGState(_context);
-    CGContextAddPath(_context, _drawPath.CGPath);
-
-    BOOL isInPath = CGContextPathContainsPoint(_context, touchPoint, kCGPathFillStroke);
+    [super touchesEnded:touches withEvent:event];
     
-    CGContextRestoreGState(_context);
-
-    if (isInPath)
+    if (_touchEnabled)
     {
+        CGPoint touchPoint = [[touches anyObject] locationInView:self];
+        
         float x = touchPoint.x;
         x -= _strokeSize;
         
-        float posX = (int)x % (int)(_spaceBetweenPoints + _radiusPoint * 2.0);
-        posX -= _radiusPoint;
-
-        if (fabs(posX) <= _radiusPoint)
-        {
-            int nbrPoint = (float)x / (float)(_spaceBetweenPoints + _radiusPoint * 2.0);
+        for (int i = 0; i < [_positionPoints count]; i++) {
             
-            if ([_delegate respondsToSelector:@selector(timeSlider:didSelectPointAtIndex:)])
+            CGPoint point = [[_positionPoints objectAtIndex:i] CGPointValue];
+            
+            if (fabs(point.x - x) <= _radiusPoint)
             {
-                [_delegate timeSlider:self didSelectPointAtIndex:nbrPoint];
+                if ([_delegate respondsToSelector:@selector(timeSlider:didSelectPointAtIndex:)])
+                {
+                    [_delegate timeSlider:self didSelectPointAtIndex:i];
+                }
+                
+                [self moveToIndex:i];
+                return;
             }
-            
-            [self moveToIndex:nbrPoint];
         }
     }
 }
@@ -244,6 +244,14 @@
     [_moveLayer setNeedsDisplay];
     
     _currentIndex = index;
+}
+
+#pragma mark -
+#pragma mark Getters 
+
+- (CGPoint)positionForPointAtIndex:(int)index
+{
+    return [[_positionPoints objectAtIndex:index] CGPointValue];
 }
 
 #pragma mark -
@@ -291,8 +299,19 @@
     [self setNeedsDisplay];
 }
 
+- (void)setStrokeSizeForeground:(float)strokeSizeForeground
+{
+    _strokeSizeForeground = strokeSizeForeground;
+    [self setNeedsDisplay];
+}
+
 - (void)setRadiusPoint:(float)radiusPoint
 {
+    if (_radiusCircle > radiusPoint - 4)
+    {
+        radiusPoint = _radiusCircle + 4;
+    }
+    
     _radiusPoint = radiusPoint;
     [self setNeedsDisplay];
 }
@@ -305,7 +324,7 @@
     }
     else
     {
-        _numberOfPoints = numberOfPoints;
+        _numberOfPoints = (int)numberOfPoints;
     }
     
     [self setNeedsDisplay];
@@ -313,7 +332,29 @@
 
 - (void)setHeightLine:(float)heightLine
 {
+    if (heightLine > _radiusPoint * 2)
+    {
+        heightLine = _radiusPoint * 2;
+    }
+    
     _heightLine = heightLine;
+    [self setNeedsDisplay];
+}
+
+- (void)setRadiusCircle:(float)radiusCircle
+{
+    if (radiusCircle > _radiusPoint - 4)
+    {
+        radiusCircle = _radiusPoint - 4;
+    }
+    
+    _radiusCircle = radiusCircle;
+    [self setNeedsDisplay];
+}
+
+- (void)setSpaceBetweenPoints:(float)spaceBetweenPoints
+{
+    _spaceBetweenPoints = spaceBetweenPoints;
     [self setNeedsDisplay];
 }
 

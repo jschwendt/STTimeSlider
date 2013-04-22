@@ -19,7 +19,6 @@
         [self setAutoresizesSubviews:NO];
         [self setAutoresizingMask:UIViewAutoresizingNone];
         [self setContentMode:UIViewContentModeTopLeft];
-//        [self setClipsToBounds:YES];
     }
     return self;
 }
@@ -27,10 +26,9 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    [_delegate.strokeColorForeground setStroke];
-    
+        
     CGContextSaveGState(context);
+    [_delegate.strokeColorForeground setStroke];
     [_movePath setLineWidth:_delegate.strokeSizeForeground];
     [_movePath stroke];
     [_movePath addClip];

@@ -41,6 +41,7 @@
 @property (nonatomic, retain) UIColor *strokeColor;
 @property (nonatomic, retain) UIColor *shadowColor;
 @property (nonatomic, assign) CGGradientRef gradient;
+@property (nonatomic, assign) BOOL touchEnabled;
 
 @property (nonatomic, assign, readonly) int currentIndex;
 
@@ -52,5 +53,6 @@
 @property (nonatomic, retain) id<STTimeSliderDelegate> delegate;
 
 - (void)moveToIndex:(int)index;
+- (CGPoint)positionForPointAtIndex:(int)index;
 
 @end

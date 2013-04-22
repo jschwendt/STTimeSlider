@@ -17,7 +17,19 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *labelIndex;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (strong, nonatomic) IBOutlet UISlider *sliderNumberPoints;
+@property (strong, nonatomic) IBOutlet UISlider *sliderRadiusPoint;
+@property (strong, nonatomic) IBOutlet UISlider *sliderRadiusCircle;
+@property (strong, nonatomic) IBOutlet UISlider *sliderLineHeight;
+@property (strong, nonatomic) IBOutlet UISlider *sliderDistance;
+@property (strong, nonatomic) IBOutlet UISwitch *switchUI;
 
+- (IBAction)changeUI:(id)sender;
 - (IBAction)changeSegment:(id)sender;
+- (IBAction)changeNumberPoints:(id)sender;
+- (IBAction)changeRadiusPoint:(id)sender;
+- (IBAction)changeRadiusCircle:(id)sender;
+- (IBAction)changeLineHeight:(id)sender;
+- (IBAction)changeDistance:(id)sender;
 
 @end
