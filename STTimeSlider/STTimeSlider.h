@@ -50,7 +50,7 @@
 @property (nonatomic, retain) UIColor *strokeColorForeground;
 @property (nonatomic, assign) float radiusCircle;
 
-@property (nonatomic, retain) id<STTimeSliderDelegate> delegate;
+@property (nonatomic, assign) id<STTimeSliderDelegate> delegate;
 
 - (void)moveToIndex:(int)index;
 - (CGPoint)positionForPointAtIndex:(int)index;
