@@ -318,9 +318,11 @@
 
 - (void)setNumberOfPoints:(float)numberOfPoints
 {
-    if (numberOfPoints < 2)
+    float minNumberOfPoints = (_currentIndex + 1) > 2 ? (_currentIndex + 1) : 2;
+    
+    if (numberOfPoints < minNumberOfPoints)
     {
-        _numberOfPoints = 2;
+        _numberOfPoints = minNumberOfPoints;
     }
     else
     {

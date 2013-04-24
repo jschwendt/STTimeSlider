@@ -64,7 +64,7 @@
     [_timeSlider setNumberOfPoints:slider.value];
     [_segmentedControl removeAllSegments];
     
-    for (int i = 0; i < (int)slider.value; i++) {
+    for (int i = 0; i < (int)_timeSlider.numberOfPoints; i++) {
         [_segmentedControl insertSegmentWithTitle:[NSString stringWithFormat:@"%d", i] atIndex:i animated:NO];
     }
 }
