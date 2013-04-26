@@ -173,8 +173,8 @@
                 [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
                 
                 CGPoint currentPoint = path.currentPoint;
-                
-                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:M_PI - angle endAngle:M_PI - angle + 0.00001 clockwise:NO];
                 [path addLineToPoint:currentPoint];
                 [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
             }
