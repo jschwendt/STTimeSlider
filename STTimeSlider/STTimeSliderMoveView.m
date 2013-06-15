@@ -14,7 +14,8 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         [self setBackgroundColor:[UIColor clearColor]];
         [self setAutoresizesSubviews:NO];
         [self setAutoresizingMask:UIViewAutoresizingNone];

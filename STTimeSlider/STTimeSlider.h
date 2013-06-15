@@ -6,6 +6,11 @@
 //  Copyright (c) 2013 Sebastien Thiebaud. All rights reserved.
 //
 
+typedef NS_ENUM(NSInteger, STTimeSliderMode) {
+    STTimeSliderModeSolo,
+    STTimeSliderModeMulti
+};
+
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "STTimeSliderMoveView.h"
@@ -15,21 +20,11 @@
 
 @optional
 - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index;
+- (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index;
 
 @end
 
 @interface STTimeSlider : UIView
-{
-    UIBezierPath *_drawPath;
-    UIBezierPath *_movePath;
-    
-    CGContextRef _context;
-    
-    STTimeSliderMoveView *_moveLayer;
-    NSMutableArray *_positionPoints;
-    
-    int _moveFinalIndex;
-}
 
 @property (nonatomic, assign) float spaceBetweenPoints;
 @property (nonatomic, assign) float numberOfPoints;
@@ -44,6 +39,8 @@
 @property (nonatomic, assign) BOOL touchEnabled;
 
 @property (nonatomic, assign, readonly) int currentIndex;
+@property (nonatomic, assign) STTimeSliderMode mode;
+@property (nonatomic, assign) int startIndex;
 
 @property (nonatomic, assign) CGGradientRef gradientForeground;
 @property (nonatomic, assign) float strokeSizeForeground;
