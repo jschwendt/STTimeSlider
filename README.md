@@ -63,7 +63,15 @@ Don't forget to implement`STTimeSliderDelegate` protocol in your ViewController.
 ``` objective-c
     - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index
     {
-        NSLog(@"TimeSlider %@ at Index %d", timeSlider, index);
+        NSLog(@"User clicked on TimeSlider %@ at Index %d", timeSlider, index);
+    }
+```
+or when the slider has changed:
+
+``` objective-c
+    - (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index
+    {
+        NSLog(@"TimeSlider %@ has changed at Index %d", timeSlider, index);
     }
 ```
 
