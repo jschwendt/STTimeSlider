@@ -208,7 +208,7 @@
             }
         }
         
-        for (int i = _currentIndex; i > _startIndex; i--)
+        for (int i = _currentIndex - 1; i > _startIndex; i--)
         {
             CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * i + _radiusPoint * 2.0 * i + 1.0, _radiusPoint + 1.0);
             
