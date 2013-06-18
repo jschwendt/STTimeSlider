@@ -11,7 +11,7 @@
 @class STTimeSlider;
 @interface STTimeSliderMoveView : UIView
 
-@property (nonatomic, retain) STTimeSlider *delegate;
+@property (nonatomic, assign) STTimeSlider *delegate;
 @property (nonatomic, retain) UIBezierPath *movePath;
 
 @property (nonatomic, assign) CGPoint startPoint;
