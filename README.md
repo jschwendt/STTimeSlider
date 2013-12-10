@@ -17,7 +17,7 @@ And include `QuartzCore.framework` and `CoreGraphics.framework`.
 
 This plugin is highly customizable. You can customize:
 
-![STTimeSlider doc sizes](http://sebastienthiebaud.us/github/STTimeSlider/sizes.png "STTimeSlider doc sizes")
+![STTimeSlider doc sizes](http://www.iosjp.com/dev/wp-content/uploads/2013/04/STTimeSlider2.png "STTimeSlider doc sizes")
 
 ### Mode
 - `STTimeSliderMode mode`: The mode of the slider (multi points or solo)
