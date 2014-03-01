@@ -26,50 +26,62 @@
     NSMutableArray *_positionPoints;
 }
 
+- (void) defaultInitialization {
+    [self setBackgroundColor:[UIColor clearColor]];
+    
+    _spaceBetweenPoints = 40.0;
+    _numberOfPoints = 5.0;
+    _heightLine = 10.0;
+    _radiusPoint = 10.0;
+    _shadowSize = CGSizeMake(2.0, 2.0);
+    _shadowBlur = 2.0;
+    _strokeSize = 1.0;
+    _strokeColor = [UIColor blackColor];
+    _shadowColor = [UIColor colorWithWhite:0.0 alpha:0.30];
+    _radiusCircle = 2.0;
+    _mode = STTimeSliderModeMulti;
+    _startIndex = 0;
+    _currentIndex = 0;
+    _touchEnabled = YES;
+    
+    _strokeColorForeground = [UIColor colorWithWhite:0.3 alpha:1.0];
+    _strokeSizeForeground = 1.0;
+    
+    _moveLayer = [[STTimeSliderMoveView alloc] initWithFrame:self.bounds];
+    [_moveLayer setDelegate:self];
+    [self addSubview:_moveLayer];
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    NSArray *gradientColors = [NSArray arrayWithObjects:
+                               (id)[UIColor whiteColor].CGColor,
+                               (id)[UIColor colorWithWhite:0.793 alpha:1.000].CGColor, nil];
+    CGFloat gradientLocations[] = {0, 1};
+    _gradientForeground = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+    
+    gradientColors = [NSArray arrayWithObjects:
+                      (id)[UIColor colorWithRed:0.571 green:0.120 blue:0.143 alpha:1.000].CGColor,
+                      (id)[UIColor colorWithRed:0.970 green:0.264 blue:0.370 alpha:1.000].CGColor, nil];
+    _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
+    
+    _positionPoints = [NSMutableArray array];
+    
+    CGColorSpaceRelease(colorSpace);
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self defaultInitialization];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setBackgroundColor:[UIColor clearColor]];
-        
-        _spaceBetweenPoints = 40.0;
-        _numberOfPoints = 5.0;
-        _heightLine = 10.0;
-        _radiusPoint = 10.0;
-        _shadowSize = CGSizeMake(2.0, 2.0);
-        _shadowBlur = 2.0;
-        _strokeSize = 1.0;
-        _strokeColor = [UIColor blackColor];
-        _shadowColor = [UIColor colorWithWhite:0.0 alpha:0.30];
-        _radiusCircle = 2.0;
-        _mode = STTimeSliderModeMulti;
-        _startIndex = 0;
-        _currentIndex = 0;
-        _touchEnabled = YES;
-        
-        _strokeColorForeground = [UIColor colorWithWhite:0.3 alpha:1.0];
-        _strokeSizeForeground = 1.0;
-        
-        _moveLayer = [[STTimeSliderMoveView alloc] initWithFrame:self.bounds];
-        [_moveLayer setDelegate:self];
-        [self addSubview:_moveLayer];
-        
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        
-        NSArray *gradientColors = [NSArray arrayWithObjects:
-                                   (id)[UIColor whiteColor].CGColor,
-                                   (id)[UIColor colorWithWhite:0.793 alpha:1.000].CGColor, nil];
-        CGFloat gradientLocations[] = {0, 1};
-        _gradientForeground = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
-        
-        gradientColors = [NSArray arrayWithObjects:
-                          (id)[UIColor colorWithRed:0.571 green:0.120 blue:0.143 alpha:1.000].CGColor,
-                          (id)[UIColor colorWithRed:0.970 green:0.264 blue:0.370 alpha:1.000].CGColor, nil];
-        _gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, gradientLocations);
-        
-        _positionPoints = [NSMutableArray array];
-        
-        CGColorSpaceRelease(colorSpace);
+        [self defaultInitialization];
     }
     return self;
 }
