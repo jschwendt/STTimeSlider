@@ -28,6 +28,7 @@
 
 - (void) defaultInitialization {
     [self setBackgroundColor:[UIColor clearColor]];
+    [self setContentMode:UIViewContentModeRedraw];
     
     _spaceBetweenPoints = 40.0;
     _numberOfPoints = 5.0;
