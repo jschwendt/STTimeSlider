@@ -30,8 +30,8 @@
     [self setBackgroundColor:[UIColor clearColor]];
     [self setContentMode:UIViewContentModeRedraw];
     
-    _spaceBetweenPointsPortrait = 40.0;
-    _spaceBetweenPointsLandscape = 80.0;
+    _spaceBetweenPointsPortrait = 40.0f;
+    _spaceBetweenPointsLandscape = 40.0f;
     _numberOfPoints = 5.0;
     _heightLine = 10.0;
     _radiusPoint = 10.0;
@@ -96,7 +96,7 @@
     [_moveLayer setFrame:self.bounds];
     _context = UIGraphicsGetCurrentContext();
     
-    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, [self spaceBetweenPoints] * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0);
+    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, [self spaceBetweenPointsCurrent] * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0);
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMinY(timelineRect));
     CGPoint endPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMaxY(timelineRect));
@@ -122,11 +122,15 @@
     [_moveLayer setNeedsDisplay];
 }
 
-- (float) spaceBetweenPoints {
+- (float) spaceBetweenPointsCurrent {
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (!UIInterfaceOrientationIsLandscape (interfaceOrientation))
         return _spaceBetweenPointsPortrait;
     return _spaceBetweenPointsLandscape;
+}
+
+- (float) spaceBetweenPoints {
+    return [self spaceBetweenPointsCurrent];
 }
 
 - (UIBezierPath *)backgroundPath
@@ -137,7 +141,7 @@
     
     float angle = _heightLine / 2.0 / _radiusPoint;
     
-    float spaceBetweenPoints = [self spaceBetweenPoints];
+    float spaceBetweenPoints = [self spaceBetweenPointsCurrent];
     
     for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
     {
@@ -183,7 +187,7 @@
     
     float angle = heightLine / 2.0 / radiusPoint;
     
-    float spaceBetweenPoints = [self spaceBetweenPoints];
+    float spaceBetweenPoints = [self spaceBetweenPointsCurrent];
     
     if (_currentIndex == 0 || _mode == STTimeSliderModeSolo || _startIndex == _currentIndex)
     {
