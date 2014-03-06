@@ -28,10 +28,8 @@
 
 - (void) defaultInitialization {
     [self setBackgroundColor:[UIColor clearColor]];
-    [self setContentMode:UIViewContentModeRedraw];
     
-    _spaceBetweenPointsPortrait = 40.0f;
-    _spaceBetweenPointsLandscape = 40.0f;
+    _spaceBetweenPoints = 40.0;
     _numberOfPoints = 5.0;
     _heightLine = 10.0;
     _radiusPoint = 10.0;
@@ -92,11 +90,10 @@
 #pragma mark Drawing
 
 - (void)drawRect:(CGRect)rect
-{
-    [_moveLayer setFrame:self.bounds];
+{        
     _context = UIGraphicsGetCurrentContext();
     
-    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, [self spaceBetweenPointsCurrent] * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0);
+    CGRect timelineRect = CGRectMake(self.bounds.origin.x + _strokeSize, self.bounds.origin.y + _strokeSize, _spaceBetweenPoints * (_numberOfPoints + 1) + _radiusPoint * 2.0 * (_numberOfPoints + 2), _radiusPoint * 2.0);
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMinY(timelineRect));
     CGPoint endPoint = CGPointMake(CGRectGetMidX(timelineRect), CGRectGetMaxY(timelineRect));
@@ -122,17 +119,6 @@
     [_moveLayer setNeedsDisplay];
 }
 
-- (float) spaceBetweenPointsCurrent {
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (!UIInterfaceOrientationIsLandscape (interfaceOrientation))
-        return _spaceBetweenPointsPortrait;
-    return _spaceBetweenPointsLandscape;
-}
-
-- (float) spaceBetweenPoints {
-    return [self spaceBetweenPointsCurrent];
-}
-
 - (UIBezierPath *)backgroundPath
 {
     [_positionPoints removeAllObjects];
@@ -141,37 +127,35 @@
     
     float angle = _heightLine / 2.0 / _radiusPoint;
     
-    float spaceBetweenPoints = [self spaceBetweenPointsCurrent];
-    
     for (int i = 0; i < (_numberOfPoints - 2) * 2 + 2; i++)
     {
         int pointNbr = (i >= _numberOfPoints) ? (_numberOfPoints - 2) - (i - _numberOfPoints) : i;
         
-        CGPoint centerPoint = CGPointMake(_radiusPoint + spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + _strokeSize, _radiusPoint + _strokeSize);
+        CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * pointNbr + _radiusPoint * 2.0 * pointNbr + _strokeSize, _radiusPoint + _strokeSize);
         
         if (i == 0)
         {
             [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:angle * -1.0 clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + _spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
         }
         else if (i == _numberOfPoints - 1)
         {
             [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:M_PI - angle clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - spaceBetweenPoints - ((i == (_numberOfPoints - 2) * 2 + 1) ? (_radiusPoint * (1.0 - cosf(angle))) : 0 ), centerPoint.y + _heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints - ((i == (_numberOfPoints - 2) * 2 + 1) ? (_radiusPoint * (1.0 - cosf(angle))) : 0 ), centerPoint.y + _heightLine / 2.0)];
         }
         else if (i < _numberOfPoints - 1)
         {
             [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:M_PI + angle endAngle:angle * -1.0 clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x + _radiusPoint + _spaceBetweenPoints, centerPoint.y - _heightLine / 2.0)];
         }
         else if (i >= _numberOfPoints)
         {
             [_positionPoints addObject:[NSValue valueWithCGPoint:centerPoint]];
             [path addArcWithCenter:centerPoint radius:_radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - spaceBetweenPoints - ((i == (_numberOfPoints - 2) * 2 + 1) ? (_radiusPoint * (1.0 - cosf(angle))) : 0 ), centerPoint.y + _heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x - _radiusPoint - _spaceBetweenPoints - ((i == (_numberOfPoints - 2) * 2 + 1) ? (_radiusPoint * (1.0 - cosf(angle))) : 0 ), centerPoint.y + _heightLine / 2.0)];
         }
     }
             
@@ -187,14 +171,12 @@
     
     float angle = heightLine / 2.0 / radiusPoint;
     
-    float spaceBetweenPoints = [self spaceBetweenPointsCurrent];
-    
     if (_currentIndex == 0 || _mode == STTimeSliderModeSolo || _startIndex == _currentIndex)
     {
-        CGPoint centerPoint = CGPointMake(_radiusPoint + ((_mode == STTimeSliderModeSolo) ? spaceBetweenPoints * _currentIndex + _radiusPoint * 2.0 * _currentIndex : 0) + 1.0, _radiusPoint + 1.0);
+        CGPoint centerPoint = CGPointMake(_radiusPoint + ((_mode == STTimeSliderModeSolo) ? _spaceBetweenPoints * _currentIndex + _radiusPoint * 2.0 * _currentIndex : 0) + 1.0, _radiusPoint + 1.0);
         
         if (_startIndex == _currentIndex)
-            centerPoint = CGPointMake(_radiusPoint + spaceBetweenPoints * _startIndex + _radiusPoint * 2.0 * _startIndex + 1.0, _radiusPoint + 1.0);
+            centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * _startIndex + _radiusPoint * 2.0 * _startIndex + 1.0, _radiusPoint + 1.0);
 
         [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:0.0 endAngle:M_PI * 2.0 clockwise:YES];
         [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
@@ -203,7 +185,7 @@
     {
         for (int i = _startIndex; i <= _currentIndex; i++)
         {
-            CGPoint centerPoint = CGPointMake(_radiusPoint + spaceBetweenPoints * i + _radiusPoint * 2.0 * i + 1.0, _radiusPoint + 1.0);
+            CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * i + _radiusPoint * 2.0 * i + 1.0, _radiusPoint + 1.0);
             
             if (i == _startIndex)
             {
@@ -213,7 +195,7 @@
                 
                 [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
                 [path addLineToPoint:currentPoint];
-                [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
+                [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
             }
             else if (i == _currentIndex)
             {
@@ -223,7 +205,7 @@
 
                 [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:M_PI - angle endAngle:M_PI - angle + 0.00001 clockwise:NO];
                 [path addLineToPoint:currentPoint];
-                [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+                [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
             }
             else if (i < _currentIndex)
             {
@@ -234,16 +216,16 @@
                 [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
                 [path addLineToPoint:currentPoint];
 
-                [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
+                [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + _spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
             }
         }
         
         for (int i = _currentIndex - 1; i > _startIndex; i--)
         {
-            CGPoint centerPoint = CGPointMake(_radiusPoint + spaceBetweenPoints * i + _radiusPoint * 2.0 * i + 1.0, _radiusPoint + 1.0);
+            CGPoint centerPoint = CGPointMake(_radiusPoint + _spaceBetweenPoints * i + _radiusPoint * 2.0 * i + 1.0, _radiusPoint + 1.0);
             
             [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:angle endAngle:M_PI - angle clockwise:YES];
-            [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
+            [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - _spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
         }
     }
     
@@ -396,19 +378,9 @@
     [self setNeedsDisplay];
 }
 
-- (void)setSpaceBetweenPoints:(float)spaceBetweenPoints {
-    _spaceBetweenPointsPortrait = spaceBetweenPoints;
-    _spaceBetweenPointsLandscape = spaceBetweenPoints;
-    [self setNeedsDisplay];
-}
-
-- (void)setSpaceBetweenPointsPortrait:(float)spaceBetweenPointsPortrait {
-    _spaceBetweenPointsPortrait = spaceBetweenPointsPortrait;
-    [self setNeedsDisplay];
-}
-
-- (void)setSpaceBetweenPointsLandscape:(float)spaceBetweenPointsLandscape {
-    _spaceBetweenPointsLandscape = spaceBetweenPointsLandscape;
+- (void)setSpaceBetweenPoints:(float)spaceBetweenPoints
+{
+    _spaceBetweenPoints = spaceBetweenPoints;
     [self setNeedsDisplay];
 }
 

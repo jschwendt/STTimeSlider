@@ -26,9 +26,7 @@ typedef NS_ENUM(NSInteger, STTimeSliderMode) {
 
 @interface STTimeSlider : UIView
 
-@property (nonatomic, assign) float spaceBetweenPoints DEPRECATED_ATTRIBUTE;
-@property (nonatomic, assign) float spaceBetweenPointsPortrait;
-@property (nonatomic, assign) float spaceBetweenPointsLandscape;
+@property (nonatomic, assign) float spaceBetweenPoints;
 @property (nonatomic, assign) float numberOfPoints;
 @property (nonatomic, assign) float heightLine;
 @property (nonatomic, assign) float radiusPoint;
