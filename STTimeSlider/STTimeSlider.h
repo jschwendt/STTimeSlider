@@ -11,7 +11,6 @@ typedef NS_ENUM(NSInteger, STTimeSliderMode) {
     STTimeSliderModeMulti
 };
 
-#import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "STTimeSliderMoveView.h"
 

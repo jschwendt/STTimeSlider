@@ -9,7 +9,6 @@
 #import "STViewController.h"
 #import "STTimeSlider.h"
 
-
 @interface STViewController () <STTimeSliderDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *labelIndex;
@@ -35,13 +34,11 @@
 
 @end
 
-@implementation STViewController 
-{
+@implementation STViewController {
     STTimeSlider *_timeSlider;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     _timeSlider = [[STTimeSlider alloc] initWithFrame:CGRectMake(5.0, 20.0, 310.0, 40.0)];
@@ -52,98 +49,83 @@
     [self.view addSubview:_timeSlider];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     _labelIndex.text = [NSString stringWithFormat:@"Index: %d --- Position %@", _timeSlider.currentIndex, NSStringFromCGPoint([_timeSlider positionForPointAtIndex:_timeSlider.currentIndex])];
 }
 
-#pragma mark -
-#pragma mark STTimeSlider Delegate
+#pragma mark - STTimeSliderDelegate
 
-- (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index
-{
+- (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index {
     NSLog(@"Index %d selected", index);
 }
 
-- (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index
-{
+- (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index {
     _labelIndex.text = [NSString stringWithFormat:@"Index: %d --- Position %@", index, NSStringFromCGPoint([_timeSlider positionForPointAtIndex:index])];
     
     [_finalSegmentedControl setSelectedSegmentIndex:index];
 }
 
-#pragma mark -
-#pragma mark Demo
+#pragma mark - Demo
 
-- (IBAction)changeUI:(id)sender
-{
+- (IBAction)changeUI:(id)sender {
     UISwitch *switchUI = (UISwitch *)sender;
     [_timeSlider setTouchEnabled:switchUI.on];
 }
 
-- (IBAction)changeMode:(id)sender
-{
+- (IBAction)changeMode:(id)sender {
     [_timeSlider setMode:(_modeSegmentedControl.selectedSegmentIndex == 0) ? STTimeSliderModeMulti : STTimeSliderModeSolo];
 }
 
-- (IBAction)changeFirst:(id)sender
-{
-    _timeSlider.startIndex = _firstSegmentedControl.selectedSegmentIndex;
+- (IBAction)changeFirst:(id)sender {
+    _timeSlider.startIndex = (int)_firstSegmentedControl.selectedSegmentIndex;
 }
 
-- (IBAction)changeFinal:(id)sender
-{
-    [_timeSlider moveToIndex:_finalSegmentedControl.selectedSegmentIndex];
+- (IBAction)changeFinal:(id)sender {
+    [_timeSlider moveToIndex:(int)_finalSegmentedControl.selectedSegmentIndex];
     
     if (_timeSlider.currentIndex != _finalSegmentedControl.selectedSegmentIndex)
         [_finalSegmentedControl setSelectedSegmentIndex:_timeSlider.currentIndex];
     
-    _labelIndex.text = [NSString stringWithFormat:@"Index: %d --- Position %@", _finalSegmentedControl.selectedSegmentIndex, NSStringFromCGPoint([_timeSlider positionForPointAtIndex:_finalSegmentedControl.selectedSegmentIndex])];
+    _labelIndex.text = [NSString stringWithFormat:@"Index: %d --- Position %@", (int)_finalSegmentedControl.selectedSegmentIndex, NSStringFromCGPoint([_timeSlider positionForPointAtIndex:(int)_finalSegmentedControl.selectedSegmentIndex])];
 }
 
-- (IBAction)changeNumberPoints:(id)sender
-{
+- (IBAction)changeNumberPoints:(id)sender {
     UISlider *slider = (UISlider *)sender;
     
     [_timeSlider setNumberOfPoints:slider.value];
     [_finalSegmentedControl removeAllSegments];
     [_firstSegmentedControl removeAllSegments];
     
-    for (int i = 0; i < (int)_timeSlider.numberOfPoints; i++)
-    {
+    for (int i = 0; i < (int)_timeSlider.numberOfPoints; i++) {
         [_firstSegmentedControl insertSegmentWithTitle:[NSString stringWithFormat:@"%d", i] atIndex:i animated:NO];
         [_finalSegmentedControl insertSegmentWithTitle:[NSString stringWithFormat:@"%d", i] atIndex:i animated:NO];
     }
 }
 
-- (IBAction)changeRadiusPoint:(id)sender
-{
+- (IBAction)changeRadiusPoint:(id)sender {
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setRadiusPoint:slider.value];
 }
 
-- (IBAction)changeRadiusCircle:(id)sender
-{
+- (IBAction)changeRadiusCircle:(id)sender {
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setRadiusCircle:slider.value];
 }
 
-- (IBAction)changeLineHeight:(id)sender
-{
+- (IBAction)changeLineHeight:(id)sender {
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setHeightLine:slider.value];
 }
 
-- (IBAction)changeDistance:(id)sender
-{
+- (IBAction)changeDistance:(id)sender {
     UISlider *slider = (UISlider *)sender;
-    [_timeSlider setSpaceBetweenPoints:slider.value];
+    [_timeSlider setSpaceBetweenPointsPortrait:slider.value];
+    [_timeSlider setSpaceBetweenPointsLandscape:slider.value * 0.5];
 }
 
 @end

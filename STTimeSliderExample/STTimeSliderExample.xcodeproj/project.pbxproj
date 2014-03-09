@@ -21,7 +21,22 @@
 		254D1A65170A906600173995 /* STViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254D1A63170A906600173995 /* STViewController.xib */; };
 		254D1A6F170A910F00173995 /* STTimeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D1A6E170A910F00173995 /* STTimeSlider.m */; };
 		25DA6FF81721BAAF0092D83D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25DA6FF71721BAAF0092D83D /* QuartzCore.framework */; };
+		BE69D4E418CC1336009DEB4F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE69D4E318CC1336009DEB4F /* XCTest.framework */; };
+		BE69D4E518CC1336009DEB4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254D1A4A170A906600173995 /* Foundation.framework */; };
+		BE69D4E618CC1336009DEB4F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254D1A48170A906600173995 /* UIKit.framework */; };
+		BE69D4EC18CC1336009DEB4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE69D4EA18CC1336009DEB4F /* InfoPlist.strings */; };
+		BE69D4EE18CC1336009DEB4F /* STTimeSlider_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE69D4ED18CC1336009DEB4F /* STTimeSlider_Tests.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BE69D4F018CC1336009DEB4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 254D1A3D170A906600173995 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 254D1A44170A906600173995;
+			remoteInfo = STTimeSliderExample;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		251B5C131721E3BB00DF0C4E /* STTimeSliderMoveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTimeSliderMoveView.h; sourceTree = "<group>"; };
@@ -45,6 +60,12 @@
 		254D1A6D170A910F00173995 /* STTimeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTimeSlider.h; sourceTree = "<group>"; };
 		254D1A6E170A910F00173995 /* STTimeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTimeSlider.m; sourceTree = "<group>"; };
 		25DA6FF71721BAAF0092D83D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BE69D4E218CC1336009DEB4F /* STTimeSlider Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "STTimeSlider Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE69D4E318CC1336009DEB4F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		BE69D4E918CC1336009DEB4F /* STTimeSlider Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "STTimeSlider Tests-Info.plist"; sourceTree = "<group>"; };
+		BE69D4EB18CC1336009DEB4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BE69D4ED18CC1336009DEB4F /* STTimeSlider_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STTimeSlider_Tests.m; sourceTree = "<group>"; };
+		BE69D4EF18CC1336009DEB4F /* STTimeSlider Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "STTimeSlider Tests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +80,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BE69D4DF18CC1336009DEB4F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE69D4E418CC1336009DEB4F /* XCTest.framework in Frameworks */,
+				BE69D4E618CC1336009DEB4F /* UIKit.framework in Frameworks */,
+				BE69D4E518CC1336009DEB4F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -66,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				254D1A4E170A906600173995 /* STTimeSliderExample */,
+				BE69D4E718CC1336009DEB4F /* STTimeSlider Tests */,
 				254D1A47170A906600173995 /* Frameworks */,
 				254D1A46170A906600173995 /* Products */,
 			);
@@ -75,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				254D1A45170A906600173995 /* STTimeSliderExample.app */,
+				BE69D4E218CC1336009DEB4F /* STTimeSlider Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,6 +119,7 @@
 				254D1A48170A906600173995 /* UIKit.framework */,
 				254D1A4A170A906600173995 /* Foundation.framework */,
 				254D1A4C170A906600173995 /* CoreGraphics.framework */,
+				BE69D4E318CC1336009DEB4F /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,6 +164,25 @@
 			path = ../../STTimeSlider;
 			sourceTree = "<group>";
 		};
+		BE69D4E718CC1336009DEB4F /* STTimeSlider Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BE69D4ED18CC1336009DEB4F /* STTimeSlider_Tests.m */,
+				BE69D4E818CC1336009DEB4F /* Supporting Files */,
+			);
+			path = "STTimeSlider Tests";
+			sourceTree = "<group>";
+		};
+		BE69D4E818CC1336009DEB4F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE69D4E918CC1336009DEB4F /* STTimeSlider Tests-Info.plist */,
+				BE69D4EA18CC1336009DEB4F /* InfoPlist.strings */,
+				BE69D4EF18CC1336009DEB4F /* STTimeSlider Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,6 +203,24 @@
 			productReference = 254D1A45170A906600173995 /* STTimeSliderExample.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BE69D4E118CC1336009DEB4F /* STTimeSlider Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE69D4F418CC1336009DEB4F /* Build configuration list for PBXNativeTarget "STTimeSlider Tests" */;
+			buildPhases = (
+				BE69D4DE18CC1336009DEB4F /* Sources */,
+				BE69D4DF18CC1336009DEB4F /* Frameworks */,
+				BE69D4E018CC1336009DEB4F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE69D4F118CC1336009DEB4F /* PBXTargetDependency */,
+			);
+			name = "STTimeSlider Tests";
+			productName = "STTimeSlider Tests";
+			productReference = BE69D4E218CC1336009DEB4F /* STTimeSlider Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -159,6 +230,11 @@
 				CLASSPREFIX = ST;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Sebastien Thiebaud";
+				TargetAttributes = {
+					BE69D4E118CC1336009DEB4F = {
+						TestTargetID = 254D1A44170A906600173995;
+					};
+				};
 			};
 			buildConfigurationList = 254D1A40170A906600173995 /* Build configuration list for PBXProject "STTimeSliderExample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -173,6 +249,7 @@
 			projectRoot = "";
 			targets = (
 				254D1A44170A906600173995 /* STTimeSliderExample */,
+				BE69D4E118CC1336009DEB4F /* STTimeSlider Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +264,14 @@
 				254D1A5D170A906600173995 /* Default@2x.png in Resources */,
 				254D1A5F170A906600173995 /* Default-568h@2x.png in Resources */,
 				254D1A65170A906600173995 /* STViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE69D4E018CC1336009DEB4F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE69D4EC18CC1336009DEB4F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +290,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BE69D4DE18CC1336009DEB4F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE69D4EE18CC1336009DEB4F /* STTimeSlider_Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE69D4F118CC1336009DEB4F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 254D1A44170A906600173995 /* STTimeSliderExample */;
+			targetProxy = BE69D4F018CC1336009DEB4F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		254D1A51170A906600173995 /* InfoPlist.strings */ = {
@@ -224,6 +325,14 @@
 			name = STViewController.xib;
 			sourceTree = "<group>";
 		};
+		BE69D4EA18CC1336009DEB4F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE69D4EB18CC1336009DEB4F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -239,7 +348,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -270,7 +379,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -286,6 +395,7 @@
 		254D1A69170A906600173995 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STTimeSliderExample/STTimeSliderExample-Prefix.pch";
 				INFOPLIST_FILE = "STTimeSliderExample/STTimeSliderExample-Info.plist";
@@ -297,11 +407,73 @@
 		254D1A6A170A906600173995 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STTimeSliderExample/STTimeSliderExample-Prefix.pch";
 				INFOPLIST_FILE = "STTimeSliderExample/STTimeSliderExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		BE69D4F218CC1336009DEB4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/STTimeSliderExample.app/STTimeSliderExample";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "STTimeSlider Tests/STTimeSlider Tests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "STTimeSlider Tests/STTimeSlider Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		BE69D4F318CC1336009DEB4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/STTimeSliderExample.app/STTimeSliderExample";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "STTimeSlider Tests/STTimeSlider Tests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "STTimeSlider Tests/STTimeSlider Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -325,6 +497,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BE69D4F418CC1336009DEB4F /* Build configuration list for PBXNativeTarget "STTimeSlider Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE69D4F218CC1336009DEB4F /* Debug */,
+				BE69D4F318CC1336009DEB4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
