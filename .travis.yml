@@ -1,0 +1,6 @@
+language: objective-c
+xcode_sdk: iphonesimulator
+before_install:
+    - brew update
+    - cd STTimeSliderExample
+script: xctool -project STTimeSliderExample.xcodeproj -scheme STTimeSliderExample -sdk iphonesimulator test
