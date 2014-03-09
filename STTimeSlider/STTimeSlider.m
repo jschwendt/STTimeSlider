@@ -246,10 +246,12 @@
 #pragma mark - Move the index
 
 - (void)moveToIndex:(int)index {
+    NSLog(@"%s %d", __FUNCTION__, index);
     if (index >= _startIndex || _mode == STTimeSliderModeSolo) {
+        NSLog(@"%d", _startIndex);
         _currentIndex = index;
 
-        _movePath = [self movePath];
+        _movePath = [self movingPath];
         [_moveView setMovePath:_movePath];
         [_moveView setNeedsDisplay];
         
