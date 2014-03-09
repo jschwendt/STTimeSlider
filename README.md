@@ -8,6 +8,9 @@ A custom component like UISegmentedControl highly customizable.
 
 ## Documentation
 
+### Installation
+You can use CocoaPods by adding `STTimeSlider` in your Podfile. If you don't want to use this method, please refer to the following method:
+
 Please include these 4 files:
 
 - `STTimeSlider.h`
@@ -63,16 +66,14 @@ Build and run the project STTimeSliderExample in Xcode to see `STTimeSlider` in 
 Don't forget to implement`STTimeSliderDelegate` protocol in your ViewController. Without it, you won't be able to detect when the user will change the index:
 
 ``` objective-c
-    - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index
-    {
+    - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index {
         NSLog(@"User clicked on TimeSlider %@ at Index %d", timeSlider, index);
     }
 ```
 or when the slider has changed:
 
 ``` objective-c
-    - (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index
-    {
+    - (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index {
         NSLog(@"TimeSlider %@ has changed at Index %d", timeSlider, index);
     }
 ```
