@@ -59,6 +59,12 @@
     XCTAssertEqualObjects([UIColor purpleColor], _timeSlider.strokeColor, @"Stroke color should be %@ but %@ was returned instead.", [UIColor purpleColor], _timeSlider.strokeColor);
 }
 
+- (void)test_setAndGetStrokeSize_setSize_size {
+    [_timeSlider setStrokeSize:5.0];
+    
+    XCTAssertEqual((float)5.0, (float)_timeSlider.strokeSize, @"Stroke size should be %f but %f was returned instead.", 5.0, _timeSlider.strokeSize);
+}
+
 - (void)test_setAndGetShadowColor_setColor_color {
     [_timeSlider setShadowColor:[UIColor greenColor]];
     
@@ -68,14 +74,20 @@
 - (void)test_setAndGetShadowSize_setSize_size {
     [_timeSlider setShadowSize:CGSizeMake(5.0, 5.0)];
     
-    XCTAssertEqual(5.0, _timeSlider.shadowSize.height, @"Shadow size height should be %f but %f was returned instead.", 5.0, _timeSlider.shadowSize.height);
+    XCTAssertEqual((float)5.0, (float)_timeSlider.shadowSize.height, @"Shadow size height should be %f but %f was returned instead.", 5.0, _timeSlider.shadowSize.height);
     XCTAssertEqual(5.0, _timeSlider.shadowSize.width, @"Shadow size width should be %f but %f was returned instead.", 5.0, _timeSlider.shadowSize.width);
 }
 
 - (void)test_setAndGetShadowBlur_setBlur_blur {
     [_timeSlider setShadowBlur:3.0];
     
-    XCTAssertEqual(3.0, _timeSlider.shadowBlur, @"Shadow blur should be %f but %f was returned instead.", 3.0, _timeSlider.shadowSize.height);
+    XCTAssertEqual((float)3.0, (float)_timeSlider.shadowBlur, @"Shadow blur should be %f but %f was returned instead.", 3.0, _timeSlider.shadowSize.height);
+}
+
+- (void)test_setAndGetStrokeSizeForeground_setSize_size {
+    [_timeSlider setStrokeSizeForeground:5.0];
+    
+    XCTAssertEqual((float)5.0, (float)_timeSlider.strokeSizeForeground, @"Stroke size foreground should be %f but %f was returned instead.", 5.0, _timeSlider.strokeSizeForeground);
 }
 
 @end

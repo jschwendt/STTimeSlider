@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SebastienThiebaud/STTimeSlider.png?branch=master)](https://travis-ci.org/SebastienThiebaud/STTimeSlider)
+
 # STTimeSlider
 
 A custom component like UISegmentedControl highly customizable.
