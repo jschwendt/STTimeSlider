@@ -15,6 +15,7 @@ typedef NS_ENUM(NSInteger, STTimeSliderMode) {
 #import "STTimeSliderMoveView.h"
 
 @class STTimeSlider;
+
 @protocol STTimeSliderDelegate <NSObject>
 
 @optional
@@ -38,16 +39,13 @@ typedef NS_ENUM(NSInteger, STTimeSliderMode) {
 @property (nonatomic, retain) UIColor *shadowColor;
 @property (nonatomic, assign) CGGradientRef gradient;
 @property (nonatomic, assign) BOOL touchEnabled;
-
 @property (nonatomic, assign, readonly) int currentIndex;
 @property (nonatomic, assign) STTimeSliderMode mode;
 @property (nonatomic, assign) int startIndex;
-
 @property (nonatomic, assign) CGGradientRef gradientForeground;
 @property (nonatomic, assign) float strokeSizeForeground;
 @property (nonatomic, retain) UIColor *strokeColorForeground;
 @property (nonatomic, assign) float radiusCircle;
-
 @property (nonatomic, assign) id<STTimeSliderDelegate> delegate;
 
 - (void)moveToIndex:(int)index;

@@ -175,7 +175,7 @@
             centerPoint = CGPointMake(_radiusPoint + spaceBetweenPoints * _startIndex + _radiusPoint * 2.0 * _startIndex + 1.0, _radiusPoint + 1.0);
 
         [path addArcWithCenter:centerPoint radius:radiusPoint startAngle:0.0 endAngle:M_PI * 2.0 clockwise:YES];
-        [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+        [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:M_PI * 2.0 endAngle:0.0001 clockwise:NO];
     } else {
         for (int i = _startIndex; i <= _currentIndex; i++) {
             CGPoint centerPoint = CGPointMake(_radiusPoint + spaceBetweenPoints * i + _radiusPoint * 2.0 * i + 1.0, _radiusPoint + 1.0);
@@ -185,7 +185,7 @@
                 
                 CGPoint currentPoint = path.currentPoint;
                 
-                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:angle * -1.0 - 0.0001 endAngle:angle * -1.0 clockwise:NO];
                 [path addLineToPoint:currentPoint];
                 [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
             } else if (i == _currentIndex) {
@@ -193,7 +193,7 @@
                 
                 CGPoint currentPoint = path.currentPoint;
 
-                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:M_PI - angle endAngle:M_PI - angle + 0.00001 clockwise:NO];
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:M_PI - angle - 0.0001 endAngle:M_PI - angle clockwise:NO];
                 [path addLineToPoint:currentPoint];
                 [path addLineToPoint:CGPointMake(centerPoint.x - radiusPoint - spaceBetweenPoints, centerPoint.y + heightLine / 2.0)];
             } else if (i < _currentIndex) {
@@ -201,7 +201,7 @@
                 
                 CGPoint currentPoint = path.currentPoint;
                 
-                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:0.0 endAngle:M_PI * 2.0 clockwise:NO];
+                [path addArcWithCenter:centerPoint radius:_radiusCircle startAngle:angle * -1.0 - 0.0001 endAngle:angle * -1.0 clockwise:NO];
                 [path addLineToPoint:currentPoint];
                 [path addLineToPoint:CGPointMake(centerPoint.x + radiusPoint + spaceBetweenPoints, centerPoint.y - heightLine / 2.0)];
             }

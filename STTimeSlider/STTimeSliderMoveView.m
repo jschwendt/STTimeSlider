@@ -11,11 +11,9 @@
 
 @implementation STTimeSliderMoveView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self)
-    {
+    if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         [self setAutoresizesSubviews:NO];
         [self setAutoresizingMask:UIViewAutoresizingNone];
@@ -24,10 +22,8 @@
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
-        
     CGContextSaveGState(context);
     [_delegate.strokeColorForeground setStroke];
     [_movePath setLineWidth:_delegate.strokeSizeForeground];
@@ -35,7 +31,6 @@
     [_movePath addClip];
     CGContextDrawLinearGradient(context, _delegate.gradientForeground, _startPoint, _endPoint, 0);
     CGContextRestoreGState(context);
-
 }
 
 @end

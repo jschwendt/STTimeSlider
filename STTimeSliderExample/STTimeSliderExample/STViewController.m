@@ -43,6 +43,7 @@
     
     _timeSlider = [[STTimeSlider alloc] initWithFrame:CGRectMake(5.0, 20.0, 310.0, 40.0)];
     [_timeSlider setDelegate:self];
+    _timeSlider.numberOfPoints = 5;
     [_timeSlider moveToIndex:4];
     _timeSlider.startIndex = 2;
     _timeSlider.mode = STTimeSliderModeMulti;
@@ -61,10 +62,12 @@
 #pragma mark - STTimeSliderDelegate
 
 - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index {
+    NSLog(@"%s", __FUNCTION__);
     NSLog(@"Index %d selected", index);
 }
 
 - (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index {
+    NSLog(@"%s", __FUNCTION__);
     _labelIndex.text = [NSString stringWithFormat:@"Index: %d --- Position %@", index, NSStringFromCGPoint([_timeSlider positionForPointAtIndex:index])];
     
     [_finalSegmentedControl setSelectedSegmentIndex:index];
@@ -73,19 +76,23 @@
 #pragma mark - Demo
 
 - (IBAction)changeUI:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     UISwitch *switchUI = (UISwitch *)sender;
     [_timeSlider setTouchEnabled:switchUI.on];
 }
 
 - (IBAction)changeMode:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     [_timeSlider setMode:(_modeSegmentedControl.selectedSegmentIndex == 0) ? STTimeSliderModeMulti : STTimeSliderModeSolo];
 }
 
 - (IBAction)changeFirst:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     _timeSlider.startIndex = (int)_firstSegmentedControl.selectedSegmentIndex;
 }
 
 - (IBAction)changeFinal:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     [_timeSlider moveToIndex:(int)_finalSegmentedControl.selectedSegmentIndex];
     
     if (_timeSlider.currentIndex != _finalSegmentedControl.selectedSegmentIndex)
@@ -95,6 +102,7 @@
 }
 
 - (IBAction)changeNumberPoints:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     UISlider *slider = (UISlider *)sender;
     
     [_timeSlider setNumberOfPoints:slider.value];
@@ -108,21 +116,25 @@
 }
 
 - (IBAction)changeRadiusPoint:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setRadiusPoint:slider.value];
 }
 
 - (IBAction)changeRadiusCircle:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setRadiusCircle:slider.value];
 }
 
 - (IBAction)changeLineHeight:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setHeightLine:slider.value];
 }
 
 - (IBAction)changeDistance:(id)sender {
+    NSLog(@"%s", __FUNCTION__);
     UISlider *slider = (UISlider *)sender;
     [_timeSlider setSpaceBetweenPointsPortrait:slider.value];
     [_timeSlider setSpaceBetweenPointsLandscape:slider.value * 0.5];
