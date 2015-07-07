@@ -261,7 +261,10 @@
 #pragma mark - Getters
 
 - (CGPoint)positionForPointAtIndex:(int)index {
-    return [[_positionPoints objectAtIndex:index] CGPointValue];
+    if ([_positionPoints count] > 0) {
+        return [[_positionPoints objectAtIndex:index] CGPointValue];
+    }
+    return self.frame.origin;
 }
 
 #pragma mark - Setters
