@@ -112,6 +112,8 @@
     [_moveView setStartPoint:startPoint];
     [_moveView setEndPoint:endPoint];
     [_moveView setNeedsDisplay];
+    if ([_delegate respondsToSelector:@selector(timeSliderDidLayout)])
+        [_delegate timeSliderDidLayout];
 }
 
 - (float)spaceBetweenPointsCurrent {

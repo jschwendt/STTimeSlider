@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, STTimeSliderMode) {
 @optional
 - (void)timeSlider:(STTimeSlider *)timeSlider didSelectPointAtIndex:(int)index;
 - (void)timeSlider:(STTimeSlider *)timeSlider didMoveToPointAtIndex:(int)index;
+- (void)timeSliderDidLayout;
 
 @end
 
